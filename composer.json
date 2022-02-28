@@ -4,7 +4,10 @@
     "homepage": "https://pear.php.net/package/Auth",
     "autoload": {
         "psr-0": {
-            "Auth": "lib/"
+            "Auth": "./"
         }
-    }
+    },
+    "include-path": [
+        "./"
+    ],
 }
