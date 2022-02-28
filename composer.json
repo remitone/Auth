@@ -1,10 +1,10 @@
 {
-    "name": "auth/auth",
+    "name": "pear/auth",
     "description": "Pear/Auth updated for PHP 8",
     "homepage": "https://pear.php.net/package/Auth",
     "autoload": {
         "psr-0": {
-            "Auth": "lib/"
+            "Auth": "libs/vendor/pear/auth/"
         }
     }
 }
