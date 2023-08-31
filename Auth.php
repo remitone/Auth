@@ -819,12 +819,31 @@ class Auth {
         }
 
         $this->session['challengecookie'] = md5($this->session['challengekey'] . microtime());
-        setcookie('authchallenge', $this->session['challengecookie'], 0, '/');
+        setcookie('authchallenge', $this->session['challengecookie'], [
+            'expires' => 0,
+            'path' => '/',
+            'domain' => null,
+            'secure' => $this->isSSL(),
+            'httponly' => true,
+            'samesite' => 'strict',
+        ]);
 
         $this->session['registered'] = true;
         $this->session['username'] = $username;
         $this->session['timestamp'] = time();
         $this->session['idle'] = time();
+    }
+
+    function isSSL(): bool
+    {
+        if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
+            || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) {
+            $sslConnection = true;
+        } else {
+            $sslConnection = false;
+        }
+
+        return $sslConnection;
     }
 
     // }}}
@@ -888,7 +907,14 @@ class Auth {
                         $this->log('Generating new Challenge Cookie.', AUTH_LOG_DEBUG);
                         $this->session['challengecookieold'] = $this->session['challengecookie'];
                         $this->session['challengecookie'] = md5($this->session['challengekey'] . microtime());
-                        setcookie('authchallenge', $this->session['challengecookie'], 0, '/');
+                        setcookie('authchallenge', $this->session['challengecookie'], [
+                            'expires' => 0,
+                            'path' => '/',
+                            'domain' => null,
+                            'secure' => $this->isSSL(),
+                            'httponly' => true,
+                            'samesite' => 'strict',
+                        ]);
                     }
 
                     // Check for ip change
