@@ -578,7 +578,8 @@ class Auth {
 
                 // New Login form
                 include_once 'Auth/Frontend/Html.php';
-                return Auth_Frontend_Html::render($this, $this->username);
+                $renderer = new Auth_Frontend_Html();
+                $renderer->render($this, $this->username);
             }
         } else {
             return;
